@@ -35,3 +35,8 @@ quart run --port 8000 --reload
 ### create api step-by-step
 - blue print on route
 - regiseter blue-print on app
+
+### Openssl Command for generate secret key
+``
+openssl rand -base64 32
+``
