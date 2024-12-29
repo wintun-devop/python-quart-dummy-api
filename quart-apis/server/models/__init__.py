@@ -9,7 +9,7 @@ class Base(DeclarativeBase):
 
 class Product(Base):
     __tablename__ = "esm_product"
-    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=func.uuid_generate_v4())
+    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=str(uuid.uuid4()))
     name:Mapped[str] = mapped_column(nullable=False)
     model_no:Mapped[str] = mapped_column(nullable=False, unique=True)
     description:Mapped[str] = mapped_column(nullable=False)
@@ -19,7 +19,7 @@ class Product(Base):
     
 class User(Base):
     __tablename__ = "esm_user"
-    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=func.uuid_generate_v4())
+    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=str(uuid.uuid4()))
     email:Mapped[str] = mapped_column(nullable=False,unique=True)
     password:Mapped[str] = mapped_column(nullable=False)
     username:Mapped[str] = mapped_column(nullable=False)
