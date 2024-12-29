@@ -23,22 +23,21 @@ async def create_user():
         user_password=req_body["password"]
         #hasing passsword
         hash_password = bcrypt.generate_password_hash(user_password).decode('utf-8')
-        print("hash password",hash_password)
         add_user = User(email=user_email,password=hash_password,username=user_name)
         db_session.add(add_user)
         db_session.commit()
         result = db_session.query(User).filter_by(email=user_email).first()
-        print("re",result)
         response = {
             'id':result.id,
             'username':user_name,
             'email':user_email,
-            'profile':result.profile
+            'profile':result.profile,
+            'created':result.created
         }
         return await make_response(jsonify(response),201)
      except IntegrityError as e:
         db_session.rollback()
-        error = {"status": "fail", "message": "A user with this email already exists"}
+        error = {"status": "fail", "message": "A user with this email or usernname already exists"}
         return await make_response(jsonify(error), 400) 
      except SQLAlchemyError as e:
         db_session.rollback()

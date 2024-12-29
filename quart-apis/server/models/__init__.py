@@ -22,7 +22,7 @@ class User(Base):
     id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=str(uuid.uuid4()))
     email:Mapped[str] = mapped_column(nullable=False,unique=True)
     password:Mapped[str] = mapped_column(nullable=False)
-    username:Mapped[str] = mapped_column(nullable=False)
+    username:Mapped[str] = mapped_column(nullable=False,unique=True)
     profile:Mapped[str] = mapped_column(nullable=False,default=str("profile.png"))
     created: Mapped[datetime.datetime] = mapped_column(default=func.now())
     updated: Mapped[datetime.datetime] = mapped_column(nullable=True,onupdate=func.now())
