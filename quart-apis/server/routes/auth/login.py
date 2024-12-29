@@ -29,7 +29,6 @@ login_bp = Blueprint('login',__name__,url_prefix=AUTH_LOGIN_API_LINK)
 @login_bp.route("/",methods=['POST'])
 async def login():
     req_body = await request.get_json()
-    print("r",req_body)
     try:
         user_name=req_body["username"]
         user_password=req_body["password"]
