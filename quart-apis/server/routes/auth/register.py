@@ -4,7 +4,7 @@ from server import bcrypt
 #database import
 from server.models.db import db_session
 from server.models import User
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
 #import api prefix
 from server.resources.apis_paths import AUTH_REGISTER_API_LINK
@@ -36,10 +36,17 @@ async def create_user():
             'profile':result.profile
         }
         return await make_response(jsonify(response),201)
+     except IntegrityError as e:
+        db_session.rollback()
+        error = {"status": "fail", "message": "A user with this email already exists"}
+        return await make_response(jsonify(error), 400) 
      except SQLAlchemyError as e:
-        print("err",e)
-        print("type",type(e))
+        db_session.rollback()
         error={"status":"fail","message":"internal server error"}
-        return error
+        return await make_response(jsonify(error), 500)
+     except Exception as e:
+        db_session.rollback()
+        error = {"status": "fail", "message": "An unexpected error occurred"}
+        return await make_response(jsonify(error), 500)
 
      
