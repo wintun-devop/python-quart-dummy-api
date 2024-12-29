@@ -40,3 +40,19 @@ quart run --port 8000 --reload
 ``
 openssl rand -base64 32
 ``
+
+# Running Cron(amazonlinux)
+```
+sudo yum install cronie -y
+```
+```
+sudo systemctl start crond
+```
+```
+sudo systemctl enable crond
+```
+### (@reboot /home/your_script_location > /home/your_log_location 2>&1 &)
+```
+@reboot /home/ec2-user/python-quart-dummy-api/quart-apis/server_run.sh > /home/ec2-user/python-quart-dummy-api/quart-apis/server_run.log 2>&1 &
+```
+
