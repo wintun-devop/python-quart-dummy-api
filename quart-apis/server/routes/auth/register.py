@@ -32,12 +32,14 @@ async def create_user():
         response = {
             'id':result.id,
             'username':user_name,
-            'email':user_email
+            'email':user_email,
+            'profile':result.profile
         }
         return await make_response(jsonify(response),201)
      except SQLAlchemyError as e:
         print("err",e)
+        print("type",type(e))
         error={"status":"fail","message":"internal server error"}
-        raise error
+        return error
 
      
