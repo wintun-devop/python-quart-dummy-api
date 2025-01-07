@@ -8,15 +8,14 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column,relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import func,ForeignKey
 from typing import List
-import datetime
-import uuid,datetime
+import datetime,uuid
 
 class Base(DeclarativeBase):
     pass
 
 class Product(Base):
     __tablename__ = "esm_product"
-    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=str(uuid.uuid4()))
+    id:Mapped[str] = mapped_column(UUID(as_uuid=True),primary_key=True, default=uuid.uuid4())
     name:Mapped[str] = mapped_column(nullable=False)
     model_no:Mapped[str] = mapped_column(nullable=False, unique=True)
     price:Mapped[float] = mapped_column(nullable=True,default=0)
@@ -29,7 +28,7 @@ class Product(Base):
     
 class User(Base):
     __tablename__ = "esm_user"
-    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=str(uuid.uuid4()))
+    id:Mapped[str] = mapped_column(UUID(as_uuid=True),primary_key=True, default=uuid.uuid4())
     email:Mapped[str] = mapped_column(nullable=False,unique=True)
     password:Mapped[str] = mapped_column(nullable=False)
     username:Mapped[str] = mapped_column(nullable=False,unique=True)
@@ -41,7 +40,7 @@ class User(Base):
 #Product and Order is one to Many
 class Order(Base):
     __tablename__ = "esm_order"
-    id:Mapped[str] = mapped_column(UUID(as_uuid=True), primary_key=True, default=str(uuid.uuid4()))
+    id:Mapped[str] = mapped_column(UUID(as_uuid=True),primary_key=True, default=uuid.uuid4())
     product_id: Mapped[str] = mapped_column(ForeignKey("esm_product.id"))
     product_price:Mapped[float] = mapped_column(nullable=False)
     product_qty:Mapped[int] = mapped_column(nullable=False)

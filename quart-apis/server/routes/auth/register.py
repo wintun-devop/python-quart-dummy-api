@@ -4,6 +4,7 @@ from server import bcrypt
 #database import
 from server.models.db import db_session
 from server.models import User
+from server.utils.helpers import uuid_string
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
 #import api prefix
@@ -23,7 +24,7 @@ async def create_user():
         user_password=req_body["password"]
         #hasing passsword
         hash_password = bcrypt.generate_password_hash(user_password).decode('utf-8')
-        add_user = User(email=user_email,password=hash_password,username=user_name)
+        add_user = User(id=uuid_string(),email=user_email,password=hash_password,username=user_name)
         db_session.add(add_user)
         db_session.commit()
         result = db_session.query(User).filter_by(email=user_email).first()
@@ -36,6 +37,7 @@ async def create_user():
         }
         return await make_response(jsonify(response),201)
      except IntegrityError as e:
+        print("e",e)
         db_session.rollback()
         error = {"status": "fail", "message": "A user with this email or usernname already exists"}
         return await make_response(jsonify(error), 400) 

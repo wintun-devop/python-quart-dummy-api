@@ -7,13 +7,10 @@ from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 
 from server.resources.apis_paths import PRODUCT_API
 #input helper
-from server.utils.helpers import to_lower_case,to_dict
+from server.utils.helpers import to_lower_case,to_dict,uuid_string
 
 #authorization
-from quart_jwt_extended import (
-                                jwt_required,
-                                get_jwt_identity
-                                )
+from quart_jwt_extended import jwt_required
 
 #declare blue print
 product_bp = Blueprint('product',__name__,url_prefix=PRODUCT_API)
@@ -22,7 +19,7 @@ product_bp = Blueprint('product',__name__,url_prefix=PRODUCT_API)
 async def create_product():
     req_body = await request.get_json()
     try:
-        add_product = Product(name=req_body["name"],model_no=to_lower_case(req_body["model"]),price=req_body["price"],qty=req_body["qty"],description=req_body["description"])
+        add_product = Product(id=uuid_string(),name=req_body["name"],model_no=to_lower_case(req_body["model"]),price=req_body["price"],qty=req_body["qty"],description=req_body["description"])
         db_session.add(add_product)
         db_session.commit()
         result = db_session.query(Product).filter_by(model_no=to_lower_case(req_body["model"])).first()
@@ -111,6 +108,7 @@ async def update_product():
 @jwt_required
 async def delete_product():
     req_body = await request.get_json()
+    print(req_body)
     try:
         product = db_session.query(Product).filter_by(id=req_body["id"]).first()
         if product is None:
