@@ -30,7 +30,7 @@ def app_instance():
     app.config['JWT_REFRESH_TOKEN_ENABLED'] = True
     # Enable csrf double submit protection. See this for a thorough
     # explanation: http://www.redotheweb.com/2015/11/09/api-security.html
-    app.config["JWT_COOKIE_CSRF_PROTECT"] = True
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     JWTManager(app)
     #database config
     #bcrypt hasing

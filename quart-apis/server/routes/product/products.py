@@ -6,11 +6,13 @@ from server.models import Product
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 from server.resources.apis_paths import PRODUCTS_API
 from server.utils.helpers import to_dict
-
+from quart_jwt_extended import jwt_required
 
 #declare blue print
 products_bp = Blueprint('products',__name__,url_prefix=PRODUCTS_API)
+
 @products_bp.route("/",methods=['GET'])
+@jwt_required
 async def get_products():
     try:
         result = db_session.query(Product).all()
