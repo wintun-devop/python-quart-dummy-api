@@ -23,6 +23,9 @@ pip install quart-bcrypt
 ```
 pip install quart-sqlalchemy
 ```
+```
+pip install quart-schema
+```
 ### quart run with default port number 5000
 ```
 quart run --reload

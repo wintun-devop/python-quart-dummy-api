@@ -7,6 +7,9 @@ from quart_jwt_extended import JWTManager
 from datetime import timedelta
 #bcrypt for password hashing
 from quart_bcrypt import Bcrypt
+#swgger docs
+from quart_schema import QuartSchema
+
 from . import server_config
 
 #declare bcrypt global instance
@@ -15,6 +18,7 @@ bcrypt = Bcrypt()
 
 def app_instance():
     app = Quart(__name__)
+    QuartSchema(app)
     app.config['SECRET_KEY']=server_config.APP_SECRET_KEY
     #configure cors
     app = cors(app, allow_origin="*")
